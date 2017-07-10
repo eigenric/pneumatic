@@ -7,10 +7,15 @@
 * 6/20/2012
 */
 
+@font-face {
+    font-family: "Fontin";
+    src: url(Fontin.ttf);
+}
+
 // Theme Variables
 
-$main-font: "Raleway", sans-serif;
-$code-font: "Source Code Pro", monospace;
+$main-font: "Fontin", sans-serif;
+$code-font: "Menlo", monospace;
 
 $accent-colour: #FF8000;
 
@@ -44,7 +49,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 
 body {
 	background: #fff;
-	font: 14px/23px $main-font;
+	font: 16px/23px $main-font;
 	color: #222;
 	-webkit-font-smoothing: antialiased;
 	-webkit-text-size-adjust: 100%;
