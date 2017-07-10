@@ -172,12 +172,38 @@ abbr, acronym, .abbr {
 	top: -0.7em;
 }
 
-code {
-	font-size: 0.85em;
-	font-family: $code-font;
-	background: #f5f5f5;
-	padding: 0.1em 0.3em;
-	border-radius: 3px;
+
+textarea, code, pre, tt {
+
+	font-family: $code-font, monospace!important;
+	color: #000;
+	font-size: 0.9em;
+	background: #eee;
+
+}
+
+tt {
+	font-size: 0.8em; 
+}
+
+pre {
+
+	padding: 8px 30px; 
+	margin: 15px auto; 
+	line-height: 1.5;
+	border-style:solid; 
+	border-width:1px; 
+	border-color:#bbb;
+
+}
+
+code, tt {
+
+	padding: 1px 4px 1px 4px;
+	border-style:solid;
+	border-width:1px;
+	border-color:#bbb;
+
 }
 
 .codehilitetable {
@@ -264,7 +290,6 @@ aside div {
 	margin: 0 auto;
 	display: block;
 	width: 140px;
-	border-radius: 15px;
 }
 
 #name {
