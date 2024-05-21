@@ -17,9 +17,13 @@
 		<h1 class="title"><a href="{{ article.url }}" title="{{ article.title | striptags }}">{{ article.title }}</a></h1>
 		<time class="date" datetime="{{ article.date }}">{{ article.locale_date }}</time>
 		<div class="content summary">
-			<p>{{ article.summary | striptags | replace(' …', ' ...') | replace(' ...', '&nbsp;&#8230;') }}</p>
+				<p>
+					{% set readmore = "<a class='no-dec readmore' href='{}'>&#8230;</a>".format(article.url) %}
+					{{ article.summary | striptags | replace('…', readmore) }}
+				</p>
+<!--			<p>{{ article.summary | striptags | replace(' …', ' ...') | replace(' ...', '&nbsp;&#8230;') }}</p> -->
 		</div>
 		{% if not loop.last %}<br>{% endif %}
 	{% endfor %}
-	<div id="view-archives"><a href="/archive/">Posts anteriores &raquo;</a></div>
+	<div id="view-archives"><a class="no-dec no-dec-h" href="/archive/">Posts anteriores &raquo;</a></div>
 {% endblock %}

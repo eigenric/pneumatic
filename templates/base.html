@@ -12,15 +12,17 @@
 	{% block meta %}{% endblock %}
 
 	<!-- Stylesheets and Web Fonts -->
-	{% assets filters="scss, cssmin", output="style.min.css", "pneumatic.scss", "pygments.css" %}
+	{% assets filters="scss, cssmin", output="style.min.css", "normalize.css", "pneumatic.scss", "pygments.css", "zeynep.min.css" %}
 	<link href="/{{ ASSET_URL }}" rel="stylesheet">
 	{% endassets %}
 	{% if GOOGLE_FONTS %}
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css?family={{ GOOGLE_FONTS | join('|') | replace(' ', '+') }}" rel="stylesheet" type="text/css">
 	{% endif %}
 	{% if SOCIAL_ICONS %}
 	{% if FA_EMBED_CODE %}
-	<link rel="stylesheet" href="https://use.fontawesome.com/{{ FA_EMBED_CODE }}.css">
+	<script src="https://kit.fontawesome.com/{{ FA_EMBED_CODE }}.js" crossorigin="anonymous"></script>
 	{% else %}
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	{% endif %}
@@ -52,21 +54,51 @@
 
 <body>
 	<div class="container">
+		<div class="state-indicator"></div>
 		<aside>
-			<a href="/"><img id="avatar" alt="Site Avatar" src="/{{ ICONS_PATH }}/avatar.png"></a>
-			<div id="name"><a href="/">{{ SITENAME }}</a></div>
+			<div id="bar-title">
+				<i class="fas fa-bars btn-open"></i>
+				<a href="/"><img id="avatar" alt="Site Avatar" src="/{{ ICONS_PATH }}/avatar.jpg"></a>
+				<div id="name"><a class="no-dec no-dec-h bold" href="/">{{ SITENAME }}</a></div>
+			</div>
 			<div id="bio">{{ BIO_TEXT }}</div>
+			<div id="bio-mob">{{ BIO_TEXT_MOB }}</div>
+
+			<div class="zeynep">
+				<ul>
+					<a href="/"><img id="avatar-mob" alt="Site Avatar" src="/{{ ICONS_PATH }}/avatar.jpg"></a>
+
+					{% if SIDEBAR_LINKS %}
+						{% for slug, name in SIDEBAR_LINKS %}
+						<li>
+							<a class="no-dec no-dec-h bold" href="/{{ slug }}">{{ name }}</a>
+						</li>
+						{% endfor %}
+					{% endif %}
+
+					{% if SOCIAL_ICONS %}
+					<li>
+					{% for link, title, icon in SOCIAL_ICONS %}					
+						<a class="social-i" target="_blank" href="{{ link }}"><i class="icon fa {{ icon }}"></i></a>
+					{% endfor %}
+					</li>
+					{% endif %}
+				</ul>
+			</div>
 
 			{% if SIDEBAR_LINKS %}
 			<div id="sidebar-links">
-				{{ SIDEBAR_LINKS | join("&nbsp;&nbsp;|&nbsp;&nbsp;") }}
+				{% for slug, name in SIDEBAR_LINKS %}
+					<a class="no-dec no-dec-h bold" href="/{{ slug }}">{{ name }}</a>
+					{% if not loop.last %} | {% endif %}
+				{% endfor %}
 			</div>
 			{% endif %}
 
 			{% if SOCIAL_ICONS %}
 			<div id="social">
 				{% for link, title, icon in SOCIAL_ICONS %}
-				<a href="{{ link }}" title="{{ title }}" class="icon fa {{ icon }}"></a>
+				<a href="{{ link }}" target="_blank" title="{{ title }}" class="icon fa {{ icon }}"></a>
 				{% endfor %}
 			</div>
 			{% endif %}
@@ -112,6 +144,71 @@
 			s.parentNode.insertBefore(t, s);
 		})();
 	</script>
+
 	{% endif %}
+
+	<script>
+		function adjustScrollBar() {
+			var state = window.getComputedStyle(
+				document.querySelector(".state-indicator"), ":before"
+			).getPropertyValue("z-index");
+
+			if (state == "1" || state == "2") {
+				var scrollbar_width = window.innerWidth - document.documentElement.clientWidth;
+				container = document.getElementsByClassName("container")[0]
+				original_width = window.getComputedStyle(container).getPropertyValue("width");
+
+				if (scrollbar_width != "0") {
+					container.style.width = parseInt(original_width, 10) - scrollbar_width + "px";
+				}
+
+				var specialMargin = document.querySelectorAll("article, footer");
+				specialMargin.forEach(function(element) {
+					element.style.setProperty("margin", "0px " + -scrollbar_width + "px 0px 0px");
+				});
+			}
+//			document.documentElement.sty.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
+		};
+
+		window.onload = adjustScrollBar;
+		window.onchange = adjustScrollBar;
+	</script>
+
+	   <div class="zeynep-overlay"></div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="/theme/js/zeynep.min.js"></script>
+
+    <script>
+      $(function() {
+        // init zeynepjs side menu
+        var zeynep = $('.zeynep').zeynep({
+          opened: function () {
+            // log
+            console.log('the side menu opened')
+          },
+          closed: function () {
+            // log
+            console.log('the side menu closed')
+          }
+        })
+
+        // dynamically bind 'closing' event
+        zeynep.on('closing', function () {
+          // log
+          console.log('this event is dynamically binded')
+        })
+
+        // handle zeynepjs overlay click
+        $('.zeynep-overlay').on('click', function () {
+          zeynep.close()
+        })
+
+        // open zeynepjs side menu
+        $('.btn-open').on('click', function () {
+          zeynep.open()
+        })
+      })
+    </script>
 </body>
 </html>

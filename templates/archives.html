@@ -6,13 +6,13 @@
 	<h1 class="title"><a href="/archive/">Archivo</a></h1>
 	<div class="content">
 		{% for year, articles in dates | groupby('date.year') | sort(reverse=True) %}
-		<h2><a href="/{{ year }}/">{{ year }}</a></h2>
+		<h2><a class="no-dec" href="/{{ year }}/">{{ year }}</a></h2>
 		<ul>
 			{% for article in articles | sort(attribute='date', reverse=True) %}
-            <li><a href="/{{ article.url }}">{{ article.title }}</a> &raquo; {{ article.date.strftime('%-d de %B') }}</li>
+            <li><a class="no-dec" href="/{{ article.url }}">{{ article.title }}</a> &raquo; {{ article.date.strftime('%-d de %B') }}</li>
 			{% endfor %}
 		</ul>
         {% endfor %}
 	</div>
-	<div id="back-to-home"><a href="/">&laquo Volver a inicio</a></div>
+	<div id="back-to-home"><a class="no-dec no-dec-h" href="/">&laquo Volver a inicio</a></div>
 {% endblock %}

@@ -26,10 +26,10 @@
 	{% if article.next_article or article.prev_article %}
 	<div id="related-articles">
 		{% if article.next_article %}
-		<a href="/{{ article.next_article.url}}" id="next-neighbour">&laquo; {{ article.next_article.title | striptags }}</a>
+		<a class="no-dec no-dec-h" href="/{{ article.next_article.url}}" id="next-neighbour">&laquo; {{ article.next_article.title | striptags }}</a>
 		{% endif %}
 		{% if article.prev_article %}
-		<a href="/{{ article.prev_article.url}}" id="prev-neighbour">{{ article.prev_article.title | striptags }} &raquo;</a>
+		<a class="no-dec no-dec-h" href="/{{ article.prev_article.url}}" id="prev-neighbour">{{ article.prev_article.title | striptags }} &raquo;</a>
 		{% endif %}
 	</div>
 	{% endif %}
