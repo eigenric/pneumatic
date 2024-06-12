@@ -9,7 +9,7 @@
 	{% for year, _ in dates | groupby('date.year') %}
 		{% for month, articles in dates | groupby('date.month') %}
 			{% if not period[1] %}
-			<h2><a class="no-dec" href="/{{ articles[0].date.strftime('%Y/%m') }}/">{{ articles[0].date.strftime('%B') }}</a></h2>
+			<h2><a class="no-dec" href="/blog/{{ articles[0].date.strftime('%Y/%m') }}/">{{ articles[0].date.strftime('%B') }}</a></h2>
 			{% endif %}
 			<ul>
 				{% for article in articles | sort(attribute='date') %}
